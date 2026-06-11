@@ -1,17 +1,31 @@
 from models.transakcija import Transakcija
 from models.enums import TipRacuna,Valuta,StatusRacuna,TipKorisnika
-from models.korisnik import Korisnik,Direktor
-from models.racun import TipRacuna, TekuciRacuna,PoslovniRacuna,StatusRacuna
+from models.korisnik import Korisnik, Direktor, Klijent
+from models.racun import TipRacuna, TekuciRacun,PoslovniRacun,StatusRacuna,Racun,StedniRacun
 from models.banka import Banka
+from services.servis_racuna import ServisiRacuna
+from services.servis_banka import ServisBanka
+from services.servis_korisnika import ServisiKorisnik
+banka1 = Banka()
+racun1=StedniRacun("Pera","Kvrzica",Valuta.EUR,70000)
+racun2=StedniRacun("Marko","Kubat",Valuta.RSD,500)
 
-banka1=Banka()
-racun1=TekuciRacuna("marko901",Valuta.RSD,2000)
-racun2=TekuciRacuna("marko901",Valuta.EUR,3000)
+korisnik=Klijent("Marko","Kubat","okram901",123)
+servis=ServisiRacuna()
 
-direktor1=Direktor("Marko","Kubat","marko123","1234")
-banka1.racuni.append(racun1)
+servis.otvori_racun("Dejan","Bora",TipRacuna.POSLOVNI,Valuta.RSD,5620)
+servis.otvori_racun("Marko","Kubat",TipRacuna.STEDNI,Valuta.EUR,500)
+servis.otvori_racun("Marko","Kubat",TipRacuna.STEDNI,Valuta.EUR,600)
+servis_banka=ServisBanka()
+servis_banka.ukupno_stanje_po_valutama()
+print(banka1)
 
-print(direktor1.pregled_svih_racuna())
+
+
+
+
+
+
 
 
 

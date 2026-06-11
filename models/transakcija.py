@@ -1,27 +1,21 @@
-
+from dataclasses import dataclass, field
 from models.racun import Racun
 from datetime import datetime
+from models.enums import Valuta
 
+@dataclass
 class Transakcija():
-    def __init__(self,posaljilac:Racun,primalac:Racun,iznos:float):
-        #Stavio sam da atributi klase budu privatni zbog integriteta
-        self._iznos=iznos
-        self._posaljilac=posaljilac
-        self._primalac=primalac
-        #dodao sam datum i vreme transakcija kako bi se vrsila bolja evidencija o transakcijama u izvestaju
-        self.datum=datetime.now()
+    racun:str
+    vlasnik:str
+    tip:str
+    iznos:float
+    valuta:Valuta
+    vreme:datetime=field(default_factory=datetime.now)
 
-    @property
-    def iznos(self):
-        return self._iznos
+    def __str__(self)->str:
+        return f"{self.racun} {self.vlasnik} {self.tip} {self.iznos}"
 
-    @property
-    def posaljilac(self):
-        return self._posaljilac
 
-    @property
-    def primalac(self):
-        return self._primalac
 
 
 
