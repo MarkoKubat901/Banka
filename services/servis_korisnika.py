@@ -7,11 +7,9 @@ class ServisiKorisnik(ABC):
     def __init__(self):
         self.banka=Banka()
 
-    def promeni_lozinku(self,korisnik:Korisnik,nova_lozinku:str)->Korisnik:
-        korisnik.set_lozinka(nova_lozinku)
-        return korisnik
 
-    def registracija_klijenta(self,ime:str,prezime:str,username:str,lozinka:str)->Korisnik:
+
+    def registracija_klijenta(self,ime:str,prezime:str,username:str,lozinka:str):
         nov_klijent=Klijent(ime=ime,prezime=prezime,username=username,lozinka=lozinka)
         self.banka.dodaj_klijenta(nov_klijent)
 

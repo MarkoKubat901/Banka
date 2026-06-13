@@ -1,13 +1,16 @@
 from abc import ABC ,abstractmethod
+from uuid import uuid4
 from models.enums import StatusRacuna,Valuta,TipRacuna
 class Racun(ABC):
-    def __init__(self,ime:str,prezime:str,tip: TipRacuna,valuta: Valuta,stanje:float=0.0,) -> None:
-        self.ime=ime
-        self.prezime=prezime
+    def __init__(self,vlasnik:str,tip: TipRacuna,valuta: Valuta,stanje:float=0.0,) -> None:
+        self.id=uuid4()
+        self.vlasnik=vlasnik
         self.tip=tip
         self.valuta=valuta
         self._stanje=stanje
         self._status=StatusRacuna.AKTIVAN
+        self.transakcije=[]
+
 
 
     def get_status(self) :
@@ -25,7 +28,7 @@ class Racun(ABC):
 
     @abstractmethod
     def __str__(self)->str:
-        return f"{self.ime} {self.prezime} {self.tip} {self.valuta} {self.get_stanje()}"
+        return f"{self.vlasnik}{self.tip} {self.valuta} {self.get_stanje()}"
 
     @abstractmethod
     def isplata(self,iznos):
@@ -45,11 +48,11 @@ class Racun(ABC):
 
 class TekuciRacun(Racun):
 
-    def __init__(self, ime: str,prezime:str, valuta: Valuta, stanje: float = 0.0, ) -> None:
-        super().__init__(ime,prezime, TipRacuna.TEKUCI,valuta,stanje)
+    def __init__(self, vlasnik: str, valuta: Valuta, stanje: float = 0.0, ) -> None:
+        super().__init__(vlasnik, TipRacuna.TEKUCI,valuta,stanje)
 
     def __str__(self) -> str:
-        return f"{self.ime} {self.prezime} {self.tip} {self.valuta} {self.get_stanje()}  {self._status}"
+        return f"{self.vlasnik}  {self.tip} {self.valuta} {self.get_stanje()}  {self._status}"
 
     def isplata(self,iznos:float):
         try:
@@ -76,16 +79,15 @@ class TekuciRacun(Racun):
 
 class StedniRacun(Racun):
 
-    def __init__(self, ime: str,prezime:str, valuta: Valuta, stanje:float = 0.0, kamatna_stopa=3) -> None:
-        super().__init__(ime,prezime,TipRacuna.STEDNI,valuta,stanje)
+    def __init__(self, vlasnik: str, valuta: Valuta, stanje:float = 0.0, kamatna_stopa=3) -> None:
+        super().__init__(vlasnik,TipRacuna.STEDNI,valuta,stanje)
         self.kamatna_stopa=kamatna_stopa
 
     def __str__(self) -> str:
-        return f"{self.ime} {self.prezime} {self.tip} {self.valuta} {self.get_stanje()} {self._status} Kamatna stopa : {self.kamatna_stopa}"
+        return f"{self.vlasnik} {self.tip} {self.valuta} {self.get_stanje()} {self._status} Kamatna stopa : {self.kamatna_stopa}"
 
 
     def isplata(self, iznos:float)->bool:
-        iznos+=(self.kamatna_stopa*iznos)/100
         try:
             if iznos > self._stanje:
                 raise ValueError("Ne mozete isplatiit iznos koji je veco od trenutnog stanja")
@@ -109,12 +111,12 @@ class StedniRacun(Racun):
 
 class PoslovniRacun(Racun):
 
-    def __init__(self, ime: str,prezime:str, valuta: Valuta, stanje: float = 0.0,dozvoljeni_minus=50000 ) -> None:
-        super().__init__(ime,prezime,TipRacuna.POSLOVNI,valuta,stanje)
+    def __init__(self, vlasnik: str, valuta: Valuta, stanje: float = 0.0,dozvoljeni_minus=50000 ) -> None:
+        super().__init__(vlasnik,TipRacuna.POSLOVNI,valuta,stanje)
         self.dozvoljeni_minus=dozvoljeni_minus
 
     def __str__(self) -> str:
-        return f"{self.ime} {self.prezime}  {self.tip} {self.valuta} {self.get_stanje()} {self._status} Dozvoljeni minus : {self.dozvoljeni_minus}"
+        return f"{self.vlasnik}  {self.tip} {self.valuta} {self.get_stanje()} {self._status} Dozvoljeni minus : {self.dozvoljeni_minus}"
 
     def isplata(self, iznos:float)->bool:
 
