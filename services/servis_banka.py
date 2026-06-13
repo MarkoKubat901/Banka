@@ -1,4 +1,5 @@
 from models.banka import Banka
+from models.korisnik import Korisnik
 from models.racun import Racun
 from models.enums import Valuta
 
@@ -7,14 +8,19 @@ class ServisBanka():
     def __init__(self):
         self.banka=Banka()
 
-    def pregled_svih_racuna(self):
-        return self.banka.racuni
+    def get_korisnik(self, username: str, lozinka: str) -> Korisnik:
+        korisnik = next(korisnik for korisnik in self.banka.korisnici if korisnik.get_lozinka() == lozinka and korisnik.username == username)
+        return korisnik
 
-    def pregled_svih_transakcija(self):
-        return self.banka.transakcije
+    def get_racuni_korisnika(self,ime:str,prezime:str):
+        racuni_korisnika=list()
+        vlasnik=ime+' '+prezime
+        for racun in self.banka.racuni:
+            if racun.vlasnik==vlasnik:
+                racuni_korisnika.append(racun)
+        return racuni_korisnika
 
-    def pregled_svih_klijenata(self):
-        return self.banka.klijenti
+
 
     def ukupno_stanje_po_valutama(self):
         for racun in self.banka.racuni:

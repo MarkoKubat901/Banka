@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
-from models.racun import Racun
 from datetime import datetime
 from models.enums import Valuta
 
 @dataclass
 class Transakcija():
-    racun:str
+    racun_id:str
     vlasnik:str
     tip:str
     iznos:float
@@ -13,7 +12,7 @@ class Transakcija():
     vreme:datetime=field(default_factory=datetime.now)
 
     def __str__(self)->str:
-        return f"{self.racun} {self.vlasnik} {self.tip} {self.iznos}"
+        return f"{self.racun_id} {self.vlasnik} {self.tip} {self.iznos}"
 
 
 
