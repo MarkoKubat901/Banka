@@ -30,7 +30,7 @@ class StatusRacuna(Enum):
         }
         return prelaz[self]
 
-    def mozne_prelaz(self,novo:StatusRacuna)->bool:
+    def moze_prelaz(self,novo:StatusRacuna)->bool:
         return True if novo in self.dozvoljen_prelaz() else False
 
 

@@ -2,4 +2,11 @@
 name = "banka"
 version = "0.1.0"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "rich>=15.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+]
