@@ -2,7 +2,6 @@
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import IntPrompt, FloatPrompt, Prompt
-
 from CLI.meni_klijent import meni_promena_lozinke
 from CLI.pomocne_metode import prikazi_racune, prikazi_klijente
 from models.enums import TipRacuna, Valuta

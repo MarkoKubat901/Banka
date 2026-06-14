@@ -11,8 +11,6 @@ from rich.prompt import Prompt, IntPrompt, FloatPrompt
 
 console = Console()
 
-
-
 def meni_registruj_se(servis:ServisRegistracija)->None :
     console.rule("[bold yellow]Registracija korisnika [/bold yellow]")
 
@@ -28,6 +26,7 @@ def meni_registruj_se(servis:ServisRegistracija)->None :
     servis.registracija(ime,prezime,username,lozinka,tip)
     console.print("[green]Uspesno ste registrovani [/green]")
     meni(ServisRegistracija())
+
 
 def meni_loginuj_se(servis:ServisRegistracija)->None :
     servis_banka=ServisBanka()
@@ -46,7 +45,6 @@ def meni_loginuj_se(servis:ServisRegistracija)->None :
             meni_radnik(korisnik)
         elif korisnik.tip==TipKorisnika.DIREKTOR:
             meni_direktor(korisnik)
-
     else:
         console.print("[red] Ovaj korisnik ne postoji[/red]\n")
 

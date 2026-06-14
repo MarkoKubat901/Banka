@@ -1,14 +1,9 @@
-from enum import Enum
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import IntPrompt, FloatPrompt, Prompt
-
 from CLI.pomocne_metode import prikazi_racune, prikazi_transakcije
-from models.enums import TipRacuna, Valuta
 from models.korisnik import Korisnik
-from models.racun import Racun
-from services.servis_korisnika import ServisiKorisnik
 from services.servis_banka import ServisBanka
 from services.servis_racuna import ServisiRacuna
 
