@@ -1,19 +1,18 @@
 from CLI.meni_direktor import meni_direktor
 from CLI.meni_klijent import meni_klijent
 from CLI.meni_radnik import meni_radnik
-from models import korisnik
-from models.enums import TipKorisnika, TipRacuna, Valuta
+from models.enums import TipKorisnika
 from services.servis_banka import ServisBanka
 from services.servis_racuna import ServisiRacuna
 from services.servis_registracija import ServisRegistracija
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Prompt, IntPrompt, FloatPrompt
+from rich.prompt import Prompt, IntPrompt
 
 console = Console()
 
 def meni_registruj_se(servis:ServisRegistracija,servis_banka:ServisBanka)->None :
-    console.rule("[bold yellow]Registracija korisnika [/bold yellow]")
+    console.rule("[bold yellow]Registracija  [/bold yellow]")
 
     tipovi = [t.value for t in TipKorisnika]
 
@@ -34,9 +33,9 @@ def meni_registruj_se(servis:ServisRegistracija,servis_banka:ServisBanka)->None 
 def meni_loginuj_se(servis:ServisRegistracija)->None :
     servis_banka=ServisBanka()
     servis_racuna=ServisiRacuna()
-    console.rule("[bold yellow]Loginuj se[/bold yellow]")
+    console.rule("[bold yellow]Login[/bold yellow]")
     username=Prompt.ask("Unesite username")
-    lozinka=Prompt.ask("Unesite password")
+    lozinka=Prompt.ask("Unesite lozinku")
     login=servis.login(username,lozinka)
     if login:
         console.print("[green] Uspesno ste ste loginovali [/green]")
@@ -72,6 +71,6 @@ def meni(servis:ServisRegistracija)->None   :
         elif izbor==2:
             meni_registruj_se(servis,servis_banka)
         elif izbor==3:
-            console.print("Izla iz menija")
+            console.print("Izlaz iz menija")
             break
 

@@ -1,7 +1,6 @@
 
 from models.enums import Valuta,StatusRacuna
 from models.racun import TipRacuna, PoslovniRacun, TekuciRacun, StedniRacun, Racun
-from models.banka import Banka
 from models.transakcija import Transakcija
 from services.servis_banka import ServisBanka
 
@@ -9,7 +8,6 @@ from services.servis_banka import ServisBanka
 class ServisiRacuna():
     def __init__(self,):
         self.banka_servis=ServisBanka()
-#Ovde se primenjuje Factory design pattern
     _factory : dict[TipRacuna,type[Racun]]={
         TipRacuna.TEKUCI:TekuciRacun,
         TipRacuna.STEDNI:StedniRacun,
@@ -26,14 +24,11 @@ class ServisiRacuna():
 
 
 
-#Da li je ovo ipravna upotreba state patterna ?,ako se sistem skalira ovaj nacin sadrzi puno if/elif, nije optimalan
 
     def uplata_na_racun(self,racun:Racun,iznos:float)->bool:
-        try:
-            if racun.get_status()==StatusRacuna.ZATVOREN:
-                raise ValueError("Na ovaj racun se ne moze izvrsiti uplata")
-        except ValueError as e:
-            print(e)
+
+        if racun.get_status()==StatusRacuna.ZATVOREN:
+            raise ValueError("Na ovaj racun se ne moze izvrsiti uplata jer je ZATVOREN")
 
         uspeh=racun.uplata(iznos)
         if uspeh:
