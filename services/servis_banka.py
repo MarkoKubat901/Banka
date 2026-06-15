@@ -32,7 +32,7 @@ class ServisBanka():
     def dodaj_racun(self,racun:Racun):
         self.banka.racuni.append(racun)
 
-    def dodaj_klijenta(self,klijent:Klijent):
+    def dodaj_klijenta(self,klijent:Korisnik):
         self.banka.klijenti.append(klijent)
 
     def dodaj_transakciju(self,transakcija:Transakcija):

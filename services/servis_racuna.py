@@ -44,7 +44,7 @@ class ServisiRacuna():
 
 
     def isplata_na_racun(self,racun:Racun,iznos:float)->bool:
-        if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN:
+        if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN or racun.tip==TipRacuna.STEDNI:
              raise ValueError("Na ovaj racun ne moze da se izvrsi isplatu")
         uspeh=racun.isplata(iznos)
         if uspeh:

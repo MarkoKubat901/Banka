@@ -1,6 +1,7 @@
 from CLI.meni_direktor import meni_direktor
 from CLI.meni_klijent import meni_klijent
 from CLI.meni_radnik import meni_radnik
+from models import korisnik
 from models.enums import TipKorisnika, TipRacuna, Valuta
 from services.servis_banka import ServisBanka
 from services.servis_racuna import ServisiRacuna
@@ -11,7 +12,7 @@ from rich.prompt import Prompt, IntPrompt, FloatPrompt
 
 console = Console()
 
-def meni_registruj_se(servis:ServisRegistracija)->None :
+def meni_registruj_se(servis:ServisRegistracija,servis_banka:ServisBanka)->None :
     console.rule("[bold yellow]Registracija korisnika [/bold yellow]")
 
     tipovi = [t.value for t in TipKorisnika]
@@ -23,9 +24,11 @@ def meni_registruj_se(servis:ServisRegistracija)->None :
     prezime=Prompt.ask("Prezime")
     username=Prompt.ask("Username")
     lozinka=Prompt.ask("Lozinka")
-    servis.registracija(ime,prezime,username,lozinka,tip)
+    nov_korisnik=servis.registracija(ime,prezime,username,lozinka,tip)
+    if tip==TipKorisnika.KLIJENT:
+        servis_banka.dodaj_klijenta(nov_korisnik)
     console.print("[green]Uspesno ste registrovani [/green]")
-    meni(ServisRegistracija())
+    return
 
 
 def meni_loginuj_se(servis:ServisRegistracija)->None :
@@ -52,6 +55,7 @@ def meni_loginuj_se(servis:ServisRegistracija)->None :
 
 def meni(servis:ServisRegistracija)->None   :
     while True:
+        servis_banka=ServisBanka()
         console.print(Panel(
             "[bold]1.[/bold] Loginuj se\n"
             "[bold]2.[/bold] Registruj se\n"
@@ -66,7 +70,7 @@ def meni(servis:ServisRegistracija)->None   :
         if izbor==1:
             meni_loginuj_se(servis)
         elif izbor==2:
-            meni_registruj_se(servis)
+            meni_registruj_se(servis,servis_banka)
         elif izbor==3:
             console.print("Izla iz menija")
             break

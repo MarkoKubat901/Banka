@@ -37,13 +37,41 @@ def meni_klijent(servis_banka:ServisBanka,servis_racuna:ServisiRacuna,korisnik:K
         elif izbor==3:
             meni_isplata(servis_racuna, servis_banka, korisnik)
         elif izbor==4:
-            pass
+            meni_transfer(servis_banka,servis_racuna,korisnik)
         elif izbor==5:
             meni_pregled_istorije_transakcija_racuna(servis_banka, korisnik)
         elif izbor==6:
             meni_promena_lozinke(korisnik)
         elif izbor==7:
             break
+
+def meni_transfer(servis_banka:ServisBanka,servis_racuna:ServisiRacuna,korisnik:Korisnik):
+    console.rule(f"[bold white]Transfer[/bold white]")
+
+    racuni = servis_banka.get_racuni_korisnika(korisnik.ime, korisnik.prezime)
+    if not racuni:
+        console.print("[red] Ovaj korisnik nema otvoren racun[/red]")
+        return
+    console.print(prikazi_racune(racuni))
+
+    izbor_racun1=IntPrompt.ask("Unesite broj sa kog racuna zelite da transferujete novac: ")
+    if izbor_racun1<0 or izbor_racun1>=len(racuni):
+        console.print("[red] Neispravan broj racuna[/red]")
+        return
+    racun1=racuni[izbor_racun1]
+    izbor_racun2=IntPrompt.ask("Unesite broj na koji racun zelite da transferujete novac: ")
+    if izbor_racun2<0 or izbor_racun2>=len(racuni):
+        console.print("[red] Neispravan broj racuna[/red]")
+        return
+    racun2=racuni[izbor_racun2]
+    iznos=FloatPrompt.ask("Unesite sumu koju zelite da transferujete")
+    uspeh=servis_racuna.transfer(racun1,racun2,iznos)
+    if uspeh:
+        console.print(f"[green]Uspesno izvrsen transfer novac[/green]")
+    else:
+        console.print(f"[red]Doslo je do greske pri izvrsavanju transfera[/red]")
+        return
+
 
 def meni_prikazi_racune(servis_banka:ServisBanka,korisnik:Korisnik):
     console.rule(f"[bold white]Prikaz racuna[/bold white]")
