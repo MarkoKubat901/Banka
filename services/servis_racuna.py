@@ -1,14 +1,14 @@
 
 from models.enums import Valuta,StatusRacuna
 from models.racun import TipRacuna, PoslovniRacun, TekuciRacun, StedniRacun, Racun
-
 from models.banka import Banka
 from models.transakcija import Transakcija
+from services.servis_banka import ServisBanka
 
 
 class ServisiRacuna():
     def __init__(self,):
-        self.banka=Banka()
+        self.banka_servis=ServisBanka()
 #Ovde se primenjuje Factory design pattern
     _factory : dict[TipRacuna,type[Racun]]={
         TipRacuna.TEKUCI:TekuciRacun,
@@ -20,7 +20,7 @@ class ServisiRacuna():
         if klasa is None:
             raise ValueError("Ovaj racun ne postoji")
         racun=klasa(vlasnik=vlasnik,valuta=valuta,stanje=pocetni_iznos,**kwargs)
-        self.banka.dodaj_racun(racun)
+        self.banka_servis.dodaj_racun(racun)
         return racun
 
 
@@ -39,20 +39,27 @@ class ServisiRacuna():
         if uspeh:
             t = Transakcija(racun_id=racun.id, vlasnik=racun.vlasnik, tip="uplata", iznos=iznos,valuta=racun.valuta)
             racun.transakcije.append(t)
-            self.banka.transakcije.append(t)
+            self.banka_servis.dodaj_transakciju(t)
         return uspeh
 
 
     def isplata_na_racun(self,racun:Racun,iznos:float)->bool:
-        if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN:
+        if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN or racun.tip==TipRacuna.STEDNI:
              raise ValueError("Na ovaj racun ne moze da se izvrsi isplatu")
         uspeh=racun.isplata(iznos)
         if uspeh:
             t=Transakcija(racun_id=racun.id,vlasnik=racun.vlasnik,tip="isplata",iznos=iznos,valuta=racun.valuta)
             racun.transakcije.append(t)
-            self.banka.transakcije.append(t)
-
+            self.banka_servis.dodaj_transakciju(t)
         return uspeh
+
+    def transfer(self,racun1:Racun,racun2:Racun,iznos)->bool:
+        uspeh_isplata=self.isplata_na_racun(racun1,iznos)
+        uspeh_uplata=self.uplata_na_racun(racun2,iznos)
+        if uspeh_isplata and uspeh_uplata:
+            return True
+        else:
+            return False
 
 
 
@@ -61,8 +68,6 @@ class ServisiRacuna():
         if uspeh:
             racun.set_status(StatusRacuna.BLOKIRAN)
         return uspeh
-
-
 
 
     def odblokiranje_racuna(self,racun:Racun)->bool:
