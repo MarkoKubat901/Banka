@@ -1,10 +1,3 @@
-from dataclasses import dataclass
-
-from models.korisnik import Klijent, Korisnik
-from models.racun import Racun
-from models.transakcija import Transakcija
-
-
 
 class Banka():
     instance=None
@@ -23,20 +16,7 @@ class Banka():
             self.suma_eur=0.0
             self.suma_usd=0.0
 
-    def __str__(self):
-        return f"Stanje u RSD: {self.suma_rsd} Stanje u EUR: {self.suma_eur} Stanje u USD: {self.suma_usd}"
 
-    def dodaj_racun(self,racun:Racun):
-        self.racuni.append(racun)
-
-    def dodaj_klijenta(self,klijent:Klijent):
-        self.klijenti.append(klijent)
-
-    def dodaj_transakciju(self,transakcija:Transakcija):
-        self.transakcije.append(transakcija)
-
-    def dodaj_korisnika(self,korisnik:Korisnik):
-        self.korisnici.append(korisnik)
 
 
 

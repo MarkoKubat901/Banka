@@ -16,6 +16,7 @@ class Korisnik(ABC):
 
     def get_lozinka(self):
         return self._lozinka
+
     def set_lozinka(self,nova_lozinka):
         self._lozinka=nova_lozinka
 

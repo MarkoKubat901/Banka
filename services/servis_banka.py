@@ -1,7 +1,8 @@
 from models.banka import Banka
-from models.korisnik import Korisnik
+from models.korisnik import Korisnik, Klijent
 from models.racun import Racun
 from models.enums import Valuta
+from models.transakcija import Transakcija
 
 
 class ServisBanka():
@@ -20,8 +21,6 @@ class ServisBanka():
                 racuni_korisnika.append(racun)
         return racuni_korisnika
 
-
-
     def ukupno_stanje_po_valutama(self):
         for racun in self.banka.racuni:
             if racun.valuta==Valuta.EUR:
@@ -30,3 +29,14 @@ class ServisBanka():
                 self.banka.suma_usd+=racun.get_stanje()
             if racun.valuta==Valuta.RSD:
                 self.banka.suma_rsd+=racun.get_stanje()
+    def dodaj_racun(self,racun:Racun):
+        self.banka.racuni.append(racun)
+
+    def dodaj_klijenta(self,klijent:Korisnik):
+        self.banka.klijenti.append(klijent)
+
+    def dodaj_transakciju(self,transakcija:Transakcija):
+        self.banka.transakcije.append(transakcija)
+
+    def dodaj_korisnika(self,korisnik:Korisnik):
+        self.banka.korisnici.append(korisnik)

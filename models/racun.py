@@ -12,7 +12,6 @@ class Racun(ABC):
         self.transakcije=[]
 
 
-
     def get_status(self) :
         return self._status
 

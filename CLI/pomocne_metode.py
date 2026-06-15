@@ -1,9 +1,5 @@
 from rich.table import Table
 
-from models.korisnik import Korisnik
-from models.racun import Racun
-from models.transakcija import Transakcija
-
 
 def prikazi_racune(racuni:list)->Table:
     tabela=Table(title="[bold]Lista racuna[/bold]")
@@ -23,6 +19,7 @@ def prikazi_racune(racuni:list)->Table:
 
         )
     return tabela
+
 def prikazi_izvestaj(stanje_RSD,stanje_EUR,stanje_USD)->Table:
     tabela=Table(title="[bold] Izvestaj[/bold]")
     tabela.add_column("Ukupno stanje u RSD",style="dim")
