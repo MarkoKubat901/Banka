@@ -66,10 +66,13 @@ def meni_transfer(servis_banka:ServisBanka,servis_racuna:ServisiRacuna,korisnik:
     racun2=racuni[izbor_racun2]
     iznos=FloatPrompt.ask("Unesite sumu koju zelite da transferujete")
     uspeh=servis_racuna.transfer(racun1,racun2,iznos)
-    if uspeh:
+    if uspeh and racun1.tip==racun2.tip:
         console.print(f"[green]Uspesno izvrsen transfer novac[/green]")
+    elif racun1.tip != racun2.tip:
+        console.print(f"[red]Valute oba racuna nisu iste[/red]")
+        return
     else:
-        console.print(f"[red]Doslo je do greske pri izvrsavanju transfera[/red]")
+        console.print(f"[red]Doslo je do greske pri transferu[/red]")
         return
 
 

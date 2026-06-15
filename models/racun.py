@@ -33,7 +33,7 @@ class Racun(ABC):
     def isplata(self,iznos):
         pass
 
-    @abstractmethod
+
     def uplata(self,iznos):
         try:
             if iznos<=0:
@@ -65,15 +65,7 @@ class TekuciRacun(Racun):
             print(e)
             return False
 
-    def uplata(self,iznos:float)->bool:
-        try:
-            if iznos<=0:
-                raise ValueError("Ne mozete uplatiti negativnu vrednost")
-            self._stanje+=iznos
-            return True
-        except ValueError as e:
-            print(e)
-            return False
+
 
 
 class StedniRacun(Racun):
@@ -98,15 +90,7 @@ class StedniRacun(Racun):
             print(e)
             return False
 
-    def uplata(self,iznos:float)->bool:
-        try:
-            if iznos<=0:
-                raise ValueError("Ne mozete uplatiti negativnu vrednost")
-            self._stanje+=iznos
-            return True
-        except ValueError as e:
-            print(e)
-            return False
+
 
 class PoslovniRacun(Racun):
 
@@ -130,12 +114,3 @@ class PoslovniRacun(Racun):
             print(e)
             return False
 
-    def uplata(self,iznos:float)->bool:
-        try:
-            if iznos<=0:
-                raise ValueError("Ne mozete uplatiti negativnu vrednost")
-            self._stanje+=iznos
-            return True
-        except ValueError as e:
-            print(e)
-            return False
