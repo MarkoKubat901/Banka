@@ -27,7 +27,7 @@ class Racun(ABC):
 
     @abstractmethod
     def __str__(self)->str:
-        return f"{self.vlasnik}{self.tip} {self.valuta} {self.get_stanje()}"
+        return f"{self.vlasnik}{self.tip} {self.valuta} {self.get_stanje()} {self._status}"
 
     @abstractmethod
     def isplata(self,iznos):
@@ -51,7 +51,8 @@ class TekuciRacun(Racun):
         super().__init__(vlasnik, TipRacuna.TEKUCI,valuta,stanje)
 
     def __str__(self) -> str:
-        return f"{self.vlasnik}  {self.tip} {self.valuta} {self.get_stanje()}  {self._status}"
+        osnonva=super().__str__()
+        return f"{osnonva} {self._status}"
 
     def isplata(self,iznos:float):
         try:
@@ -70,15 +71,17 @@ class TekuciRacun(Racun):
 
 class StedniRacun(Racun):
 
-    def __init__(self, vlasnik: str, valuta: Valuta, stanje:float = 0.0, kamatna_stopa=3) -> None:
+    def __init__(self, vlasnik: str, valuta: Valuta, stanje:float = 0.0, kamatna_stopa=0) -> None:
         super().__init__(vlasnik,TipRacuna.STEDNI,valuta,stanje)
         self.kamatna_stopa=kamatna_stopa
 
     def __str__(self) -> str:
-        return f"{self.vlasnik} {self.tip} {self.valuta} {self.get_stanje()} {self._status} Kamatna stopa : {self.kamatna_stopa}"
+        osnonva = super().__str__()
+        return f"{osnonva}  Kamatna stopa : {self.kamatna_stopa}"
 
 
     def isplata(self, iznos:float)->bool:
+        iznos*=(1+float(self.kamatna_stopa/100))
         try:
             if iznos > self._stanje:
                 raise ValueError("Ne mozete isplatiit iznos koji je veco od trenutnog stanja")
@@ -94,12 +97,13 @@ class StedniRacun(Racun):
 
 class PoslovniRacun(Racun):
 
-    def __init__(self, vlasnik: str, valuta: Valuta, stanje: float = 0.0,dozvoljeni_minus=50000 ) -> None:
+    def __init__(self, vlasnik: str, valuta: Valuta, stanje: float = 0.0,dozvoljeni_minus=0 ) -> None:
         super().__init__(vlasnik,TipRacuna.POSLOVNI,valuta,stanje)
         self.dozvoljeni_minus=dozvoljeni_minus
 
     def __str__(self) -> str:
-        return f"{self.vlasnik}  {self.tip} {self.valuta} {self.get_stanje()} {self._status} Dozvoljeni minus : {self.dozvoljeni_minus}"
+        osnonva = super().__str__()
+        return f"{osnonva}   Dozvoljeni minus : {self.dozvoljeni_minus}"
 
     def isplata(self, iznos:float)->bool:
 

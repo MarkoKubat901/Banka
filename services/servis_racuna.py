@@ -26,27 +26,34 @@ class ServisiRacuna():
 
 
     def uplata_na_racun(self,racun:Racun,iznos:float)->bool:
+        try:
+            if racun.get_status()==StatusRacuna.ZATVOREN:
+                raise ValueError("Na ovaj racun se ne moze izvrsiti uplata jer je ZATVOREN")
 
-        if racun.get_status()==StatusRacuna.ZATVOREN:
-            raise ValueError("Na ovaj racun se ne moze izvrsiti uplata jer je ZATVOREN")
-
-        uspeh=racun.uplata(iznos)
-        if uspeh:
-            t = Transakcija(racun_id=racun.id, vlasnik=racun.vlasnik, tip="uplata", iznos=iznos,valuta=racun.valuta)
-            racun.transakcije.append(t)
-            self.banka_servis.dodaj_transakciju(t)
-        return uspeh
+            uspeh=racun.uplata(iznos)
+            if uspeh:
+                t = Transakcija(racun_id=racun.id, vlasnik=racun.vlasnik, tip="uplata", iznos=iznos,valuta=racun.valuta)
+                racun.transakcije.append(t)
+                self.banka_servis.dodaj_transakciju(t)
+            return uspeh
+        except ValueError as e:
+            print(e)
+            return False
 
 
     def isplata_na_racun(self,racun:Racun,iznos:float)->bool:
-        if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN or racun.tip==TipRacuna.STEDNI:
-             raise ValueError("Na ovaj racun ne moze da se izvrsi isplatu")
-        uspeh=racun.isplata(iznos)
-        if uspeh:
-            t=Transakcija(racun_id=racun.id,vlasnik=racun.vlasnik,tip="isplata",iznos=iznos,valuta=racun.valuta)
-            racun.transakcije.append(t)
-            self.banka_servis.dodaj_transakciju(t)
-        return uspeh
+        try:
+            if racun.get_status()== StatusRacuna.BLOKIRAN or racun.get_status()==StatusRacuna.ZATVOREN :
+                 raise ValueError("Ovaj racun je blokiran ili zatvoren")
+            uspeh=racun.isplata(iznos)
+            if uspeh:
+                t=Transakcija(racun_id=racun.id,vlasnik=racun.vlasnik,tip="isplata",iznos=iznos,valuta=racun.valuta)
+                racun.transakcije.append(t)
+                self.banka_servis.dodaj_transakciju(t)
+            return uspeh
+        except ValueError as e:
+            print(e)
+            return False
 
     def transfer(self,racun1:Racun,racun2:Racun,iznos)->bool:
         uspeh_isplata=self.isplata_na_racun(racun1,iznos)
@@ -56,14 +63,11 @@ class ServisiRacuna():
         else:
             return False
 
-
-
     def blokiranje_racuna(self,racun:Racun)->bool:
         uspeh=racun.get_status().moze_prelaz(StatusRacuna.BLOKIRAN)
         if uspeh:
             racun.set_status(StatusRacuna.BLOKIRAN)
         return uspeh
-
 
     def odblokiranje_racuna(self,racun:Racun)->bool:
         uspeh=racun.get_status().moze_prelaz(StatusRacuna.AKTIVAN)

@@ -1,4 +1,4 @@
-from models.banka import Banka
+
 from models.enums import TipKorisnika
 from models.korisnik import Korisnik, Radnik, Klijent, Direktor
 from services.servis_banka import ServisBanka
