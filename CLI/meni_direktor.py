@@ -61,22 +61,23 @@ def meni_izvestaj(servis_banka):
 
 
 def meni_pregled_klijenata(servis_banka:ServisBanka):
-    console.rule("[bold yellow][/bold yellow]")
+    console.rule("[bold yellow]Pregled-klijenata[/bold yellow]")
     klijenti = servis_banka.banka.klijenti
     if not klijenti:
-        console.rule("[bold yellow]U banci trenutno nema izvrsenih transakcija[/bold yellow]")
+        console.print("[bold red]U banci trenutno nema klijenata[/bold red]")
         return
     console.print(prikazi_klijente(klijenti))
-    izbor=IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
-    if izbor==1:
+    izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor == 1:
         return
+
 
 
 def meni_pregled_svih_transakcija(servis_banka):
-    console.rule("[bold yellow][/bold yellow]")
+    console.rule("[bold yellow]Pregled transakcija[/bold yellow]")
     transakcije = servis_banka.banka.transakcije
     if not transakcije:
-        console.rule("[bold yellow]U banci trenutno nema izvrsenih transakcija[/bold yellow]")
+        console.print("[bold red]U banci trenutno nema izvrsenih transakcija[/bold red]")
         return
     console.print(prikazi_transakcije(transakcije))
     izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
@@ -84,13 +85,16 @@ def meni_pregled_svih_transakcija(servis_banka):
         return
 
 
+
+
 def meni_pregled_svih_racuna(servis_banka):
-    console.rule("[bold yellow][/bold yellow]")
+    console.rule("[bold yellow]Pregled racuna[/bold yellow]")
     racuni = servis_banka.banka.racuni
     if not racuni:
-        console.rule("[bold yellow]U banci trenutno nema racuna[/bold yellow]")
+        console.print("[bold red]U banci trenutno nema racuna[/bold red]")
         return
     console.print(prikazi_racune(racuni))
     izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
     if izbor == 1:
         return
+

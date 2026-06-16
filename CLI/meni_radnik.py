@@ -67,8 +67,6 @@ def meni_pregled_klijenata_i_njihovih_racuna(servis_banka:ServisBanka)->None:
 
 
 
-
-
 def meni_registruj_klijenta(servis_korisnik:ServisiKorisnik,servis_banka:ServisBanka)->None:
     console.rule(f"[bold white]Registracija klijenta[/bold white]")
     ime=Prompt.ask("Ime klijenta")
