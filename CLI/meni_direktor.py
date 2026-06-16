@@ -67,6 +67,9 @@ def meni_pregled_klijenata(servis_banka:ServisBanka):
         console.rule("[bold yellow]U banci trenutno nema izvrsenih transakcija[/bold yellow]")
         return
     console.print(prikazi_klijente(klijenti))
+    izbor=IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor==1:
+        return
 
 
 def meni_pregled_svih_transakcija(servis_banka):
@@ -76,6 +79,9 @@ def meni_pregled_svih_transakcija(servis_banka):
         console.rule("[bold yellow]U banci trenutno nema izvrsenih transakcija[/bold yellow]")
         return
     console.print(prikazi_transakcije(transakcije))
+    izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor == 1:
+        return
 
 
 def meni_pregled_svih_racuna(servis_banka):
@@ -85,3 +91,6 @@ def meni_pregled_svih_racuna(servis_banka):
         console.rule("[bold yellow]U banci trenutno nema racuna[/bold yellow]")
         return
     console.print(prikazi_racune(racuni))
+    izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor == 1:
+        return

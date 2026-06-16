@@ -61,6 +61,9 @@ def meni_pregled_klijenata_i_njihovih_racuna(servis_banka:ServisBanka)->None:
         console.print(f"[white]Ovaj klijent nema otvoren racuna[/white]")
         return
     console.print(prikazi_racune(racuni))
+    izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor == 1:
+        return
 
 
 
@@ -91,7 +94,7 @@ def meni_otvori_racun(servis_racuna:ServisiRacuna)->None:
 
     pocetni_iznos=FloatPrompt.ask("Pocetni iznos",default=0.0)
     if tip==TipRacuna.STEDNI:
-        kamatna_stopa=IntPrompt.ask("Unesitee kamatana stopu")
+        kamatna_stopa=IntPrompt.ask("Unesite kamatnu stopu")
         racun = servis_racuna.otvori_racun(vlasnik, tip, valuta, pocetni_iznos=pocetni_iznos,
                                            kamatna_stopa=kamatna_stopa)
     elif tip==TipRacuna.POSLOVNI:
