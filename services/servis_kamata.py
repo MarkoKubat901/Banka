@@ -1,10 +1,5 @@
 from abc import ABC, abstractmethod
-from models.racun import Racun,StedniRacun
-from models.enums import TipRacuna
-from typing import Protocol
-
-#Ovde se primenjuje strategy design pattern
-#Ovo je blueprint kasnije dodaj parametre  za formule za obe strategije,pitaj kako se primenjuje kamatat
+from models.racun import StedniRacun
 
 class KamataStrategy(ABC):
     @abstractmethod

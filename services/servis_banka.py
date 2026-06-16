@@ -1,5 +1,5 @@
 from models.banka import Banka
-from models.korisnik import Korisnik, Klijent
+from models.korisnik import Korisnik
 from models.racun import Racun
 from models.enums import Valuta
 from models.transakcija import Transakcija

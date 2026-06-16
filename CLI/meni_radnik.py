@@ -61,8 +61,9 @@ def meni_pregled_klijenata_i_njihovih_racuna(servis_banka:ServisBanka)->None:
         console.print(f"[white]Ovaj klijent nema otvoren racuna[/white]")
         return
     console.print(prikazi_racune(racuni))
-
-
+    izbor = IntPrompt.ask("Kliknite[cyan] 1 [/cyan]da izadjete")
+    if izbor == 1:
+        return
 
 
 
@@ -90,7 +91,17 @@ def meni_otvori_racun(servis_racuna:ServisiRacuna)->None:
     valuta=Valuta(valuta_unos)
 
     pocetni_iznos=FloatPrompt.ask("Pocetni iznos",default=0.0)
-    racun=servis_racuna.otvori_racun(vlasnik,tip,valuta,pocetni_iznos=pocetni_iznos)
+    if tip==TipRacuna.STEDNI:
+        kamatna_stopa=IntPrompt.ask("Unesite kamatnu stopu")
+        racun = servis_racuna.otvori_racun(vlasnik, tip, valuta, pocetni_iznos=pocetni_iznos,
+                                           kamatna_stopa=kamatna_stopa)
+    elif tip==TipRacuna.POSLOVNI:
+        dozvoljeni_minus=FloatPrompt.ask("Unesite dozvoljeni minus")
+        racun = servis_racuna.otvori_racun(vlasnik, tip, valuta, pocetni_iznos=pocetni_iznos,
+                                           dozvoljeni_minus=dozvoljeni_minus)
+    else:
+        racun = servis_racuna.otvori_racun(vlasnik, tip, valuta, pocetni_iznos=pocetni_iznos)
+
     console.print(f"[green]Racun uspesno otvoren za {racun.vlasnik}-{racun.tip.value}-{racun.valuta.value}[/green]")
 
 def meni_blokiraj_racun(servis_racuna:ServisiRacuna,servis_banka:ServisBanka,)->None:

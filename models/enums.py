@@ -1,5 +1,4 @@
 from enum import Enum
-from os import name
 class TipKorisnika(Enum):
     DIREKTOR='direktor'
     RADNIK='radnik'

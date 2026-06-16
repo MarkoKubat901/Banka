@@ -9,13 +9,17 @@ def prikazi_racune(racuni:list)->Table:
     tabela.add_column("Stanje",style="white")
     tabela.add_column("Valuta")
     tabela.add_column("Status")
+    tabela.add_column("Kamatna stopa")
+    tabela.add_column("Dozvoljeni minus")
     for i,racun in enumerate(racuni):
         tabela.add_row(str(i),
                        racun.vlasnik,
                        racun.tip.value,
                        str(racun.get_stanje()),
                        racun.valuta.value,
-                       racun.get_status().value
+                       racun.get_status().value,
+                       str(getattr(racun,"kamatna_stopa",0))+'%',
+                       str(getattr(racun,"dozvoljeni_minus",0))
 
         )
     return tabela

@@ -1,8 +1,6 @@
-from abc import abstractmethod, ABC
+from abc import  ABC
 
-from models import korisnik
-from models.banka import Banka
-from models.korisnik import Korisnik,Klijent
+from models.korisnik import Klijent
 from services.servis_banka import ServisBanka
 
 
